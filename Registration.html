@@ -1,0 +1,92 @@
+﻿<!DOCTYPE html>
+
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="utf-8" />
+    <link rel="stylesheet" type="text/css" href="style.css" />
+    <title>Registration</title>
+</head>
+<body>
+    <form action="/" name="frm1">
+        <table id="setInfo">
+            <thead>
+                <tr>
+                    <th colspan="2" align="center">Registration</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>Email:</td>     <!--type="email"-->
+                    <td><input size="26" type="text" name="e-mail" autocomplete="off" /></td>
+                </tr>
+                <tr>
+                    <td>Password:</td>
+                    <td><input size="26" type="password" name="text_password1" autocomplete="off" /></td>
+                </tr>
+                <tr>
+                    <td>Repeat:</td>
+                    <td><input size="26" type="password" name="text_password2" autocomplete="off" /></td>
+                </tr>
+            </tbody>
+            <tfoot>
+                <tr>
+                    <th colspan="2" align="center">
+                        <input type="button" value="Sign Up">
+                    </th>
+                </tr>
+            </tfoot>
+        </table>
+    </form>
+    <script>
+        "use strict";
+
+        document.addEventListener("DOMContentLoaded", main);
+
+        function main() {
+            document.querySelector("input[type=\"button\"").addEventListener("click", signUpClick);
+            redirection();
+        }
+
+        function signUpClick(e) {
+            if (!checkForm())
+                return;
+            setLocalStorageData();
+            redirection();
+        }
+
+        function checkLocalStorage() {
+            return localStorage.getItem("e-mail") != null && localStorage.getItem("password") != null;
+        }
+
+        function redirection() {
+            if (checkLocalStorage())
+                window.location.href = "User_info.html" + "?" + localStorage.getItem("e-mail");
+        }
+
+        function setLocalStorageData() {
+            localStorage.setItem("e-mail", frm1.elements[0].value);
+            localStorage.setItem("password", frm1.elements[1].value);
+        }
+
+        function checkForm() {
+            let checker = "";
+            if (!frm1.elements[0].value.length) {
+                alert(checker = "Press e-mail");
+            }
+            else if (!RegExp(/^[a-z]{1}[\w]{2,16}[@]([\w]+[\.]{1})+[\w]{2,3}$/gm).test(frm1.elements[0].value)) {
+                alert(checker = "E-mail validation problem");
+            }
+            else if (frm1.elements[1].value.length < 6) {
+                alert(checker = "minimum 6 characters in the password");
+            }
+            else if (!(RegExp(/[A-Z]/g).test(frm1.elements[1].value) && RegExp(/[a-z]/g).test(frm1.elements[1].value && RegExp(/[1-9]/g).test(frm1.elements[1].value)))) {
+                alert(checker = "Password 1 lowercase letter, 1 uppercase letter and 1 number.");
+            }
+            else if (frm1.elements[1].value !== frm1.elements[2].value) {
+                alert(checker = "Validation problem");
+            }
+            return checker === "";
+        }
+    </script>
+</body>
+</html>
